@@ -1,77 +1,265 @@
 <div class="projects-page">
+  <div class="projects-page__atmosphere" aria-hidden="true"></div>
+
   <header class="projects-page__header">
-    <h1 class="projects-page__title">projects</h1>
-    <p class="projects-page__intro">
-      Products and platforms I've designed and shipped — spanning civic tech, developer
-      education, machine learning, and production systems.
-    </p>
+    <div class="projects-page__header-main">
+      <span class="projects-page__index">02</span>
+      <div class="projects-page__heading">
+        <h1 class="projects-page__title">projects</h1>
+        <p class="projects-page__intro">
+          A workshop ledger of software platforms and embedded prototypes — from
+          production systems and hackathon wins to ESP32 firmware and Arduino access
+          control.
+        </p>
+      </div>
+    </div>
+
+    <div class="projects-page__meta">
+      <span class="projects-page__stat">
+        <strong>{{ totalCount }}</strong> total
+      </span>
+      <span class="projects-page__stat-divider" aria-hidden="true"></span>
+      <span class="projects-page__stat">
+        <strong>{{ softwareCount }}</strong> software
+      </span>
+      <span class="projects-page__stat-divider" aria-hidden="true"></span>
+      <span class="projects-page__stat">
+        <strong>{{ hardwareCount }}</strong> hardware
+      </span>
+    </div>
   </header>
 
-  <div class="projects-list">
-    @for (project of projects; track project.name) {
-      <article class="project-card">
-        <div class="project-card__head">
-          <div class="project-card__icon" [style.background]="project.iconBg">
-            {{ project.icon }}
-          </div>
-          <div class="project-card__badges">
-            @for (badge of project.badges; track badge.label) {
-              <span
-                class="project-badge"
-                [class.project-badge--primary]="badge.variant === 'primary'"
-                [class.project-badge--secondary]="badge.variant === 'secondary'"
-              >
-                ( {{ badge.label }} )
-              </span>
-            }
-          </div>
+  <nav class="projects-filter" aria-label="Filter projects by category">
+    <button
+      type="button"
+      class="projects-filter__btn"
+      [class.projects-filter__btn--active]="activeFilter() === 'all'"
+      (click)="setFilter('all')"
+    >
+      all
+    </button>
+    <button
+      type="button"
+      class="projects-filter__btn projects-filter__btn--software"
+      [class.projects-filter__btn--active]="activeFilter() === 'software'"
+      (click)="setFilter('software')"
+    >
+      software
+      <span class="projects-filter__count">{{ softwareCount }}</span>
+    </button>
+    <button
+      type="button"
+      class="projects-filter__btn projects-filter__btn--hardware"
+      [class.projects-filter__btn--active]="activeFilter() === 'hardware'"
+      (click)="setFilter('hardware')"
+    >
+      hardware
+      <span class="projects-filter__count">{{ hardwareCount }}</span>
+    </button>
+  </nav>
+
+  @if (showSoftware()) {
+    <section class="projects-section" aria-labelledby="software-heading">
+      <header class="projects-section__head">
+        <div class="projects-section__label-row">
+          <span class="projects-section__stripe projects-section__stripe--software" aria-hidden="true"></span>
+          <h2 id="software-heading" class="projects-section__title">software</h2>
         </div>
+        <p class="projects-section__desc">Web apps, ML demos, civic platforms, and full-stack systems.</p>
+      </header>
 
-        <h2 class="project-card__name">
-          {{ project.name }} <span class="project-card__dash">—</span> {{ project.tagline }}
-        </h2>
+      <div class="projects-catalog">
+        @for (project of softwareProjects; track project.name; let i = $index) {
+          <article
+            class="project-card project-card--software"
+            [class.project-card--featured]="project.featured"
+            [style.--stagger]="i"
+          >
+            <div class="project-card__rail">
+              <span class="project-card__index">{{ formatIndex(i) }}</span>
+            </div>
 
-        <p class="project-card__desc">{{ project.description }}</p>
+            <div class="project-card__body">
+              <div class="project-card__top">
+                <div class="project-card__icon" [style.background]="project.iconBg">
+                  {{ project.icon }}
+                </div>
+                <div class="project-card__meta">
+                  <div class="project-card__badges">
+                    @for (badge of project.badges; track badge.label) {
+                      <span
+                        class="project-badge"
+                        [class.project-badge--primary]="badge.variant === 'primary'"
+                        [class.project-badge--secondary]="badge.variant === 'secondary'"
+                      >
+                        {{ badge.label }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              </div>
 
-        <div class="project-card__tags">
-          @for (tag of project.tags; track tag) {
-            <span class="project-card__tag">{{ tag }}</span>
-          }
-        </div>
+              <h3 class="project-card__name">{{ project.name }}</h3>
+              <p class="project-card__tagline">{{ project.tagline }}</p>
+              <p class="project-card__desc">{{ project.description }}</p>
 
-        @if (project.links?.length) {
-          <div class="project-card__actions">
-            @for (link of project.links; track link.label) {
-              <a
-                class="project-action"
-                [href]="link.url"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {{ link.label }}
-              </a>
-            }
-          </div>
-        }
+              <div class="project-card__tags">
+                @for (tag of project.tags; track tag) {
+                  <span class="project-card__tag">{{ tag }}</span>
+                }
+              </div>
 
-        @if (project.featuredIn?.length) {
-          <footer class="project-card__featured">
-            <span class="project-card__featured-label">Featured in</span>
-            <div class="project-card__featured-links">
-              @for (item of project.featuredIn; track item.label) {
-                <a
-                  [href]="item.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-card__featured-link"
-                >
-                  {{ item.label }} ↗
-                </a>
+              @if (project.links?.length) {
+                <div class="project-card__actions">
+                  @for (link of project.links; track link.label) {
+                    <a
+                      class="project-action project-action--software"
+                      [href]="link.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {{ link.label }}
+                    </a>
+                  }
+                </div>
+              }
+
+              @if (project.featuredIn?.length) {
+                <footer class="project-card__featured">
+                  <span class="project-card__featured-label">Featured in</span>
+                  <div class="project-card__featured-links">
+                    @for (item of project.featuredIn; track item.label) {
+                      <a
+                        [href]="item.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-card__featured-link"
+                      >
+                        {{ item.label }}
+                      </a>
+                    }
+                  </div>
+                </footer>
               }
             </div>
-          </footer>
+          </article>
         }
-      </article>
-    }
-  </div>
+      </div>
+    </section>
+  }
+
+  @if (showHardware()) {
+    <section class="projects-section" aria-labelledby="hardware-heading">
+      <header class="projects-section__head">
+        <div class="projects-section__label-row">
+          <span class="projects-section__stripe projects-section__stripe--hardware" aria-hidden="true"></span>
+          <h2 id="hardware-heading" class="projects-section__title">hardware</h2>
+        </div>
+        <p class="projects-section__desc">Microcontrollers, sensors, and embedded prototypes.</p>
+      </header>
+
+      <div class="projects-catalog">
+        @for (project of hardwareProjects; track project.name; let i = $index) {
+          <article
+            class="project-card project-card--hardware"
+            [class.project-card--featured]="project.featured"
+            [style.--stagger]="i"
+          >
+            <div class="project-card__rail">
+              <span class="project-card__index">{{ formatIndex(i) }}</span>
+            </div>
+
+            <div class="project-card__body">
+              <div class="project-card__top">
+                <div class="project-card__icon" [style.background]="project.iconBg">
+                  {{ project.icon }}
+                </div>
+                <div class="project-card__meta">
+                  <div class="project-card__badges">
+                    @for (badge of project.badges; track badge.label) {
+                      <span
+                        class="project-badge"
+                        [class.project-badge--primary]="badge.variant === 'primary'"
+                        [class.project-badge--secondary]="badge.variant === 'secondary'"
+                      >
+                        {{ badge.label }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <h3 class="project-card__name">{{ project.name }}</h3>
+              <p class="project-card__tagline">{{ project.tagline }}</p>
+              <p class="project-card__desc">{{ project.description }}</p>
+
+              @if (hasDocumentation(project)) {
+                <details class="project-card__docs">
+                  <summary class="project-card__docs-trigger">
+                    <span>Project documentation</span>
+                    <span class="project-card__docs-icon" aria-hidden="true"></span>
+                  </summary>
+                  <div class="project-card__docs-body">
+                    @if (project.objectives?.length) {
+                      <div class="project-card__block">
+                        <h4 class="project-card__block-title">Objectives</h4>
+                        <ul class="project-card__list">
+                          @for (item of project.objectives; track item) {
+                            <li>{{ item }}</li>
+                          }
+                        </ul>
+                      </div>
+                    }
+                    @if (project.scope) {
+                      <div class="project-card__block">
+                        <h4 class="project-card__block-title">Scope</h4>
+                        <p class="project-card__block-text">{{ project.scope }}</p>
+                      </div>
+                    }
+                    @if (project.limitations?.length) {
+                      <div class="project-card__block">
+                        <h4 class="project-card__block-title">Limitations</h4>
+                        <ul class="project-card__list">
+                          @for (item of project.limitations; track item) {
+                            <li>{{ item }}</li>
+                          }
+                        </ul>
+                      </div>
+                    }
+                    @if (project.significance) {
+                      <div class="project-card__block">
+                        <h4 class="project-card__block-title">Significance</h4>
+                        <p class="project-card__block-text">{{ project.significance }}</p>
+                      </div>
+                    }
+                  </div>
+                </details>
+              }
+
+              <div class="project-card__tags">
+                @for (tag of project.tags; track tag) {
+                  <span class="project-card__tag">{{ tag }}</span>
+                }
+              </div>
+
+              @if (project.links?.length) {
+                <div class="project-card__actions">
+                  @for (link of project.links; track link.label) {
+                    <a
+                      class="project-action project-action--hardware"
+                      [href]="link.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {{ link.label }}
+                    </a>
+                  }
+                </div>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  }
 </div>

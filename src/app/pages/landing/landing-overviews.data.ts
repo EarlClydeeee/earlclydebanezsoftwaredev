@@ -83,8 +83,8 @@ export const LANDING_OVERVIEWS: LandingOverview[] = [
     index: '02',
     items: [
       { icon: 'Dr', name: 'Drowzi', badge: '1ST PLACE' },
-      { icon: 'BM', name: 'Barangay Mulawin', badge: 'LIVE' },
-      { icon: 'OM', name: 'OMS', badge: '2M+ OUTPUTS' },
+      { icon: 'PT', name: 'PaperTradeX', badge: 'LIVE' },
+      { icon: 'Hv', name: 'Helmivo', badge: 'ESP32' },
     ],
   },
   {

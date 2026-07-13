@@ -40,30 +40,6 @@
   letter-spacing: 0.08em;
 }
 
-.hero__status {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--text-secondary);
-  letter-spacing: 0.02em;
-  padding: 5px 12px 5px 10px;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-full);
-  background: var(--status-bg);
-  backdrop-filter: blur(8px);
-}
-
-.hero__status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--teal);
-  box-shadow: 0 0 8px var(--teal);
-  animation: glow-pulse 2.5s ease-in-out infinite;
-}
-
 .hero__stage {
   margin-bottom: 28px;
 }

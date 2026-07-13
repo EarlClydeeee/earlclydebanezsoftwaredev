@@ -1,0 +1,55 @@
+<div class="experience-page">
+  <header class="experience-page__header">
+    <h1 class="experience-page__title">experience</h1>
+    <p class="experience-page__intro">
+      Building production systems and student-led platforms — from factory monitoring at
+      global electronics manufacturers to full-stack apps across 7+ developer communities.
+    </p>
+  </header>
+
+  <div class="experience-timeline">
+    @for (company of companies; track company.name; let last = $last) {
+      <article class="company-block" [class.company-block--last]="last">
+        <div class="company-block__header">
+          <div class="company-block__logo">{{ company.icon }}</div>
+          <div class="company-block__meta">
+            <h2 class="company-block__name">{{ company.name }}</h2>
+            <p class="company-block__details">
+              {{ company.type }} · {{ company.totalDuration }}
+            </p>
+            @if (company.location) {
+              <p class="company-block__location">{{ company.location }}</p>
+            }
+          </div>
+        </div>
+
+        <div class="company-block__roles">
+          @for (role of company.roles; track role.title; let roleLast = $last) {
+            <div class="role-entry" [class.role-entry--last]="roleLast && last">
+              <div class="role-entry__marker" aria-hidden="true"></div>
+              <div class="role-entry__content">
+                <h3 class="role-entry__title">{{ role.title }}</h3>
+                <p class="role-entry__period">{{ role.period }}</p>
+
+                @for (desc of role.descriptions; track desc) {
+                  <p class="role-entry__desc">{{ desc }}</p>
+                }
+
+                @if (role.skills.length) {
+                  <div class="role-entry__skills">
+                    @for (skill of role.skills; track skill) {
+                      <span class="skill-tag">{{ skill }}</span>
+                    }
+                    @if (role.moreSkills) {
+                      <span class="skill-tag skill-tag--more">+{{ role.moreSkills }} skills</span>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </article>
+    }
+  </div>
+</div>

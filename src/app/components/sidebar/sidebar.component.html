@@ -1,0 +1,189 @@
+<aside class="sidebar">
+  <a routerLink="/" class="sidebar__profile">
+    <div class="sidebar__avatar-wrap">
+      <div class="sidebar__avatar" aria-hidden="true">{{ profile.initials }}</div>
+      <span class="sidebar__avatar-ring" aria-hidden="true"></span>
+    </div>
+    <div class="sidebar__identity">
+      <span class="sidebar__name">{{ profile.name }}</span>
+      <span class="sidebar__title">{{ profile.title }}</span>
+    </div>
+  </a>
+
+  <nav class="sidebar__nav" aria-label="Main navigation">
+    @for (section of sections; track section.title ?? 'main') {
+      @if (section.title) {
+        <span class="sidebar__section-label">{{ section.title }}</span>
+      }
+      <ul class="sidebar__list">
+        @for (item of section.items; track item.label) {
+          <li>
+            @if (item.route) {
+              <a
+                class="sidebar__link"
+                [routerLink]="item.route"
+                routerLinkActive="sidebar__link--active"
+                [routerLinkActiveOptions]="{ exact: item.routeExact === true }"
+              >
+                <span class="sidebar__link-icon" [attr.data-icon]="item.icon">
+                  @switch (item.icon) {
+                    @case ('education') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                        <path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5" />
+                      </svg>
+                    }
+                    @case ('folder') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                      </svg>
+                    }
+                    @case ('experience') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                      </svg>
+                    }
+                    @case ('stack') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                        <polyline points="2 17 12 22 22 17" />
+                        <polyline points="2 12 12 17 22 12" />
+                      </svg>
+                    }
+                    @case ('certifications') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="8" r="6" />
+                        <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+                      </svg>
+                    }
+                    @case ('recommendations') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                      </svg>
+                    }
+                    @case ('affiliations') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                      </svg>
+                    }
+                    @case ('grid') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                      </svg>
+                    }
+                    @case ('thoughts') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                      </svg>
+                    }
+                  }
+                </span>
+                <span class="sidebar__link-label">{{ item.label }}</span>
+                @if (item.shortcut) {
+                  <kbd class="sidebar__shortcut">{{ item.shortcut }}</kbd>
+                }
+              </a>
+            } @else if (item.disabled) {
+              <span class="sidebar__link sidebar__link--disabled" aria-disabled="true">
+                <span class="sidebar__link-icon" [attr.data-icon]="item.icon">
+                  @switch (item.icon) {
+                    @case ('thoughts') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                      </svg>
+                    }
+                  }
+                </span>
+                <span class="sidebar__link-label">{{ item.label }}</span>
+                @if (item.shortcut) {
+                  <kbd class="sidebar__shortcut">{{ item.shortcut }}</kbd>
+                }
+              </span>
+            } @else {
+              <a
+                class="sidebar__link"
+                [href]="item.href"
+                [attr.target]="item.external ? '_blank' : null"
+                [attr.rel]="item.external ? 'noopener noreferrer' : null"
+              >
+                <span class="sidebar__link-icon" [attr.data-icon]="item.icon">
+                  @switch (item.icon) {
+                    @case ('contact') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                      </svg>
+                    }
+                    @case ('twitter') {
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      </svg>
+                    }
+                    @case ('linkedin') {
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                      </svg>
+                    }
+                    @case ('youtube') {
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                      </svg>
+                    }
+                  }
+                </span>
+                <span class="sidebar__link-label">{{ item.label }}</span>
+                @if (item.shortcut) {
+                  <kbd class="sidebar__shortcut">{{ item.shortcut }}</kbd>
+                }
+              </a>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </nav>
+
+  <div class="sidebar__footer">
+    <button
+      type="button"
+      class="theme-switch"
+      (click)="theme.toggle()"
+      [attr.aria-pressed]="theme.isLight()"
+      [attr.aria-label]="theme.isLight() ? 'Switch to dark mode' : 'Switch to light mode'"
+    >
+      <svg class="theme-switch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+      <span class="theme-switch__track">
+        <span class="theme-switch__thumb" [class.theme-switch__thumb--light]="theme.isLight()"></span>
+      </span>
+      <svg class="theme-switch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <circle cx="12" cy="12" r="5" />
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar__search">
+    <svg class="sidebar__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+    <input type="search" placeholder="Search..." aria-label="Search" />
+    <kbd class="sidebar__shortcut">S</kbd>
+  </div>
+</aside>

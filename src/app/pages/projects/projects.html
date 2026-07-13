@@ -1,0 +1,77 @@
+<div class="projects-page">
+  <header class="projects-page__header">
+    <h1 class="projects-page__title">projects</h1>
+    <p class="projects-page__intro">
+      Products and platforms I've designed and shipped — spanning civic tech, developer
+      education, machine learning, and production systems.
+    </p>
+  </header>
+
+  <div class="projects-list">
+    @for (project of projects; track project.name) {
+      <article class="project-card">
+        <div class="project-card__head">
+          <div class="project-card__icon" [style.background]="project.iconBg">
+            {{ project.icon }}
+          </div>
+          <div class="project-card__badges">
+            @for (badge of project.badges; track badge.label) {
+              <span
+                class="project-badge"
+                [class.project-badge--primary]="badge.variant === 'primary'"
+                [class.project-badge--secondary]="badge.variant === 'secondary'"
+              >
+                ( {{ badge.label }} )
+              </span>
+            }
+          </div>
+        </div>
+
+        <h2 class="project-card__name">
+          {{ project.name }} <span class="project-card__dash">—</span> {{ project.tagline }}
+        </h2>
+
+        <p class="project-card__desc">{{ project.description }}</p>
+
+        <div class="project-card__tags">
+          @for (tag of project.tags; track tag) {
+            <span class="project-card__tag">{{ tag }}</span>
+          }
+        </div>
+
+        @if (project.links?.length) {
+          <div class="project-card__actions">
+            @for (link of project.links; track link.label) {
+              <a
+                class="project-action"
+                [href]="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ link.label }}
+              </a>
+            }
+          </div>
+        }
+
+        @if (project.featuredIn?.length) {
+          <footer class="project-card__featured">
+            <span class="project-card__featured-label">Featured in</span>
+            <div class="project-card__featured-links">
+              @for (item of project.featuredIn; track item.label) {
+                <a
+                  [href]="item.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-card__featured-link"
+                >
+                  {{ item.label }} ↗
+                </a>
+              }
+            </div>
+          </footer>
+        }
+      </article>
+    }
+  </div>
+</div>

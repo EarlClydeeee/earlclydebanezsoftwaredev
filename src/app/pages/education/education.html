@@ -1,0 +1,36 @@
+<div class="edu-page">
+  <header class="edu-page__header">
+    <h1 class="edu-page__title">education</h1>
+    <p class="edu-page__intro">
+      Academic foundation in computer engineering with a focus on artificial intelligence and
+      machine learning.
+    </p>
+  </header>
+
+  <article class="edu-entry">
+    <div class="edu-entry__dates" aria-label="2023 to 2027">
+      <span class="edu-entry__year">{{ education.startYear }}–</span>
+      <span class="edu-entry__year">{{ education.endYear }}</span>
+    </div>
+
+    <div class="edu-entry__info">
+      <h2 class="edu-entry__school">{{ education.institution }}</h2>
+      <p class="edu-entry__degree">
+        {{ education.degree }}
+        <span class="edu-entry__dot" aria-hidden="true">·</span>
+        {{ education.specialization }}
+        <span class="edu-entry__dot" aria-hidden="true">·</span>
+        {{ education.location }}
+      </p>
+    </div>
+  </article>
+
+  <section class="edu-details" aria-label="Academic highlights">
+    @for (item of education.highlights; track item.label; let first = $first) {
+      <div class="edu-detail" [class.edu-detail--first]="first">
+        <span class="edu-detail__label">{{ item.label }}</span>
+        <p class="edu-detail__value">{{ item.value }}</p>
+      </div>
+    }
+  </section>
+</div>

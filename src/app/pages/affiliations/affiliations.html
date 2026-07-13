@@ -1,0 +1,27 @@
+<div class="page">
+  <header class="page__header">
+    <span class="page__index">07</span>
+    <div class="page__heading-group">
+      <h1 class="page__title">Affiliations</h1>
+      <span class="page__rule"></span>
+      <p class="page__subtitle">Communities, organizations, and memberships.</p>
+    </div>
+  </header>
+
+  <div class="page__body">
+    @for (item of affiliations; track item.org) {
+      <article class="affiliation-card">
+        <div class="affiliation-card__main">
+          <p class="affiliation-card__badge">{{ item.badge }}</p>
+          <h2 class="affiliation-card__org">{{ item.org }}</h2>
+          <p class="affiliation-card__role">{{ item.role }}</p>
+        </div>
+        @if (item.link) {
+          <a class="affiliation-card__link" [href]="item.link" target="_blank" rel="noopener noreferrer">
+            website ↗
+          </a>
+        }
+      </article>
+    }
+  </div>
+</div>

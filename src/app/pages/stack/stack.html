@@ -1,0 +1,23 @@
+<div class="page">
+  <header class="page__header">
+    <span class="page__index">04</span>
+    <div class="page__heading-group">
+      <h1 class="page__title">Stack</h1>
+      <span class="page__rule"></span>
+      <p class="page__subtitle">Languages, frameworks, and tools I use daily.</p>
+    </div>
+  </header>
+
+  <div class="page__body stack-grid">
+    @for (group of groups; track group.title) {
+      <section class="stack-group">
+        <h2 class="stack-group__title">{{ group.title }}</h2>
+        <div class="stack-group__tags">
+          @for (item of group.items; track item) {
+            <span class="stack-tag">{{ item }}</span>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</div>

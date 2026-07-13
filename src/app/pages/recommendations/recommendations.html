@@ -1,0 +1,35 @@
+<div class="recs-page">
+  <header class="recs-page__header">
+    <h1 class="recs-page__title">recommendations</h1>
+    <p class="recs-page__intro">
+      What colleagues, mentors, and collaborators say about working with me.
+    </p>
+  </header>
+
+  <div class="recs-masonry">
+    @for (rec of recommendations; track rec.author) {
+      <article class="rec-card">
+        <span class="rec-card__mark" aria-hidden="true">&ldquo;</span>
+
+        <div class="rec-card__body">
+          @for (paragraph of rec.paragraphs; track paragraph) {
+            <p class="rec-card__text">{{ paragraph }}</p>
+          }
+        </div>
+
+        <hr class="rec-card__divider" />
+
+        <footer class="rec-card__footer">
+          <span class="rec-card__avatar" aria-hidden="true">{{ rec.initials }}</span>
+          <div class="rec-card__meta">
+            <cite class="rec-card__author">{{ rec.author }}</cite>
+            <p class="rec-card__role">{{ rec.role }}</p>
+            @if (rec.date) {
+              <time class="rec-card__date">{{ rec.date }}</time>
+            }
+          </div>
+        </footer>
+      </article>
+    }
+  </div>
+</div>

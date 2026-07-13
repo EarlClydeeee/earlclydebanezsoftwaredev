@@ -1,0 +1,179 @@
+:host {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+.edu-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 72px 56px 96px;
+  animation: fade-rise 0.9s var(--ease-out-expo) both;
+}
+
+.edu-page__header {
+  margin-bottom: 48px;
+}
+
+.edu-page__title {
+  font-family: var(--font-mono);
+  font-size: clamp(1.75rem, 4vw, 2.125rem);
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 14px;
+  text-transform: lowercase;
+}
+
+.edu-page__intro {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 42ch;
+}
+
+/* ─── Main entry — typographic row, no card ─── */
+
+.edu-entry {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 40px;
+  animation: fade-rise 0.8s var(--ease-out-expo) 0.1s both;
+}
+
+.edu-entry__dates {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding-top: 3px;
+}
+
+.edu-entry__year {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.edu-entry__info {
+  min-width: 0;
+}
+
+.edu-entry__school {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.edu-entry__degree {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  max-width: 48ch;
+}
+
+.edu-entry__dot {
+  color: var(--text-muted);
+  padding: 0 0.15em;
+}
+
+/* ─── Highlights — editorial footnotes ─── */
+
+.edu-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-left: 112px;
+  animation: fade-rise 0.8s var(--ease-out-expo) 0.2s both;
+}
+
+.edu-detail {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 24px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border-subtle);
+
+  &--first {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+
+.edu-detail__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding-top: 3px;
+}
+
+.edu-detail__value {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .edu-page {
+    padding: 40px 24px 72px;
+  }
+
+  .edu-entry {
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+  }
+
+  .edu-details {
+    padding-left: 0;
+  }
+
+  .edu-detail {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .edu-entry {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .edu-entry__dates {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0;
+
+    .edu-entry__year:first-child {
+      margin-right: 0;
+    }
+  }
+
+  .edu-entry__year {
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edu-page,
+  .edu-entry,
+  .edu-details {
+    animation: none;
+  }
+}

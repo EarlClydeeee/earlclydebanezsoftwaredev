@@ -1,0 +1,163 @@
+<div class="landing">
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero__meta">
+      <span class="hero__index">00</span>
+      <span class="hero__status">
+        <span class="hero__status-dot" aria-hidden="true"></span>
+        Available for work
+      </span>
+    </div>
+
+    <div class="hero__stage">
+      <p class="hero__greeting">
+        <span class="hero__greeting-rule" aria-hidden="true"></span>
+        Hey, I'm <span class="hero__name">Earl</span>.
+      </p>
+
+      <h1 id="hero-heading" class="hero__manifest">
+        <span class="hero__preface">I build</span>
+        <span class="hero__crafts">
+          <span class="hero__craft hero__craft--software">
+            <span class="hero__craft-idx" aria-hidden="true">01</span>
+            <em class="hero__word">software</em>
+          </span>
+          <span class="hero__ampersand">&amp;</span>
+          <span class="hero__craft hero__craft--hardware">
+            <span class="hero__craft-idx" aria-hidden="true">02</span>
+            <em class="hero__word">hardware</em><span class="hero__period">.</span>
+          </span>
+        </span>
+      </h1>
+    </div>
+
+    <p class="hero__subtitle">
+      Full-stack developer at the seam of code and circuits — clean web
+      experiences, embedded systems, concept to production.
+    </p>
+
+    <div class="hero__actions">
+      <a routerLink="/experience" class="btn btn--primary">
+        <span>Experience</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+      <a href="mailto:hello@earlclydebanez.dev" class="btn btn--ghost">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+          <polyline points="22,6 12,13 2,6" />
+        </svg>
+        <span>E-Mail</span>
+      </a>
+    </div>
+
+  </section>
+
+  <section class="overviews" aria-label="Portfolio sections">
+    @for (item of overviews; track item.path; let i = $index) {
+      <a
+        [class]="'overview overview--' + item.type"
+        [routerLink]="item.path"
+        [style.--overview-delay]="i * 70 + 'ms'"
+      >
+        <header class="overview__head">
+          <span class="overview__index">{{ item.index }}</span>
+          <h2 class="overview__label">{{ item.label }}</h2>
+          <span class="overview__arrow" aria-hidden="true">→</span>
+        </header>
+
+        <div class="overview__preview">
+          @switch (item.type) {
+            @case ('education') {
+              <div class="preview-edu">
+                <div class="preview-edu__dates">
+                  <span>{{ item.startYear }}–</span>
+                  <span>{{ item.endYear }}</span>
+                </div>
+                <div class="preview-edu__info">
+                  <p class="preview-edu__school">{{ item.school }}</p>
+                  <p class="preview-edu__degree">{{ item.degreeLine }}</p>
+                  <p class="preview-edu__honor">{{ item.honor }}</p>
+                </div>
+              </div>
+            }
+            @case ('projects') {
+              <div class="preview-projects">
+                @for (project of item.items; track project.name) {
+                  <span class="preview-project">
+                    <span class="preview-project__icon">{{ project.icon }}</span>
+                    <span class="preview-project__name">{{ project.name }}</span>
+                  </span>
+                }
+              </div>
+            }
+            @case ('experience') {
+              <div class="preview-exp">
+                <div class="preview-exp__line" aria-hidden="true"></div>
+                @for (role of item.items; track role.org) {
+                  <div class="preview-exp__item">
+                    <span class="preview-exp__dot" aria-hidden="true"></span>
+                    <span class="preview-exp__logo">{{ role.icon }}</span>
+                    <div class="preview-exp__text">
+                      <span class="preview-exp__role">{{ role.role }}</span>
+                      <span class="preview-exp__org">{{ role.org }}</span>
+                    </div>
+                    <span class="preview-exp__period">{{ role.period }}</span>
+                  </div>
+                }
+              </div>
+            }
+            @case ('stack') {
+              <div class="preview-stack">
+                @for (group of item.groups; track group.label) {
+                  <div class="preview-stack__group">
+                    <span class="preview-stack__label">{{ group.label }}</span>
+                    <div class="preview-stack__tags">
+                      @for (tag of group.tags; track tag) {
+                        <span class="preview-stack__tag">{{ tag }}</span>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+            @case ('certifications') {
+              <div class="preview-certs">
+                @for (cert of item.items; track cert.title) {
+                  <div class="preview-cert">
+                    <span class="preview-cert__logo">{{ cert.icon }}</span>
+                    <p class="preview-cert__title">{{ cert.title }}</p>
+                    <p class="preview-cert__issuer">{{ cert.issuer }}</p>
+                  </div>
+                }
+              </div>
+            }
+            @case ('recommendations') {
+              <div class="preview-rec">
+                <span class="preview-rec__mark" aria-hidden="true">&ldquo;</span>
+                <p class="preview-rec__quote">{{ item.quote }}</p>
+                <footer class="preview-rec__footer">
+                  <span class="preview-rec__avatar">{{ item.initials }}</span>
+                  <cite class="preview-rec__author">{{ item.author }}</cite>
+                </footer>
+              </div>
+            }
+            @case ('affiliations') {
+              <div class="preview-affil">
+                @for (org of item.items; track org.org) {
+                  <div class="preview-affil__item">
+                    <span class="preview-affil__badge">{{ org.badge }}</span>
+                    <div class="preview-affil__text">
+                      <span class="preview-affil__org">{{ org.org }}</span>
+                      <span class="preview-affil__role">{{ org.role }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          }
+        </div>
+      </a>
+    }
+  </section>
+</div>

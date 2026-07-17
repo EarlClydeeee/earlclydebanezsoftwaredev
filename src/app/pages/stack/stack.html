@@ -13,8 +13,23 @@
       <section class="stack-group">
         <h2 class="stack-group__title">{{ group.title }}</h2>
         <div class="stack-group__tags">
-          @for (item of group.items; track item) {
-            <span class="stack-tag">{{ item }}</span>
+          @for (item of group.items; track item.name) {
+            <span class="stack-tag">
+              @if (itemLogoUrl(item); as logo) {
+                <img
+                  class="stack-tag__logo"
+                  [src]="logo"
+                  alt=""
+                  width="18"
+                  height="18"
+                  loading="lazy"
+                  decoding="async"
+                />
+              } @else {
+                <span class="stack-tag__mono" aria-hidden="true">{{ monogram(item) }}</span>
+              }
+              <span class="stack-tag__name">{{ item.name }}</span>
+            </span>
           }
         </div>
       </section>

@@ -4,6 +4,7 @@ export interface ExperienceRole {
   descriptions: string[];
   skills: string[];
   moreSkills?: number;
+  seniorityRank: number;
 }
 
 export interface ExperienceCompany {
@@ -13,6 +14,66 @@ export interface ExperienceCompany {
   totalDuration: string;
   location?: string;
   roles: ExperienceRole[];
+}
+
+export interface ExperienceTimelineEntry {
+  id: string;
+  year: number;
+  company: ExperienceCompany;
+  role: ExperienceRole;
+}
+
+export interface ExperienceYearGroup {
+  year: number;
+  label: string;
+  entries: ExperienceTimelineEntry[];
+}
+
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export function parseRoleStartYear(period: string): number {
+  const match = period.match(/(\d{4})/);
+  return match ? Number.parseInt(match[1], 10) : 0;
+}
+
+export function buildExperienceYearGroups(
+  companies: ExperienceCompany[],
+): ExperienceYearGroup[] {
+  const entries: ExperienceTimelineEntry[] = [];
+
+  for (const company of companies) {
+    for (const role of company.roles) {
+      entries.push({
+        id: slugify(`${company.name}-${role.title}`),
+        year: parseRoleStartYear(role.period),
+        company,
+        role,
+      });
+    }
+  }
+
+  const byYear = new Map<number, ExperienceTimelineEntry[]>();
+
+  for (const entry of entries) {
+    const yearEntries = byYear.get(entry.year) ?? [];
+    yearEntries.push(entry);
+    byYear.set(entry.year, yearEntries);
+  }
+
+  return [...byYear.entries()]
+    .sort(([yearA], [yearB]) => yearB - yearA)
+    .map(([year, yearEntries]) => ({
+      year,
+      label: String(year),
+      entries: [...yearEntries].sort(
+        (a, b) => b.role.seniorityRank - a.role.seniorityRank,
+      ),
+    }));
 }
 
 export const EXPERIENCE_COMPANIES: ExperienceCompany[] = [
@@ -33,6 +94,7 @@ export const EXPERIENCE_COMPANIES: ExperienceCompany[] = [
         ],
         skills: ['HTML', 'Tailwind CSS', 'JavaScript', 'PHP', 'MySQL'],
         moreSkills: 1,
+        seniorityRank: 92,
       },
     ],
   },
@@ -53,6 +115,7 @@ export const EXPERIENCE_COMPANIES: ExperienceCompany[] = [
         ],
         skills: ['React', 'TypeScript', 'Astro', 'FastAPI', 'Supabase'],
         moreSkills: 2,
+        seniorityRank: 68,
       },
     ],
   },
@@ -72,6 +135,7 @@ export const EXPERIENCE_COMPANIES: ExperienceCompany[] = [
           "Initiates development projects that align with Microsoft's mission of empowering student developers through community-driven learning.",
         ],
         skills: ['React', 'Git', 'UI Architecture', 'Full-Stack Development'],
+        seniorityRank: 84,
       },
     ],
   },
@@ -92,6 +156,7 @@ export const EXPERIENCE_COMPANIES: ExperienceCompany[] = [
         ],
         skills: ['Next.js', 'React', 'Full-Stack Development', 'Project Management'],
         moreSkills: 1,
+        seniorityRank: 90,
       },
     ],
   },
@@ -110,6 +175,7 @@ export const EXPERIENCE_COMPANIES: ExperienceCompany[] = [
           'Proposed the AWSUG NFC ID System — a full-stack solution for real-time attendee verification and event analytics.',
         ],
         skills: ['AWS', 'Full-Stack Development', 'Event Systems'],
+        seniorityRank: 95,
       },
     ],
   },
@@ -130,6 +196,7 @@ export const EXPERIENCE_COMPANIES: ExperienceCompany[] = [
         ],
         skills: ['Next.js', 'Tailwind CSS', 'Figma', 'Project Management'],
         moreSkills: 2,
+        seniorityRank: 88,
       },
     ],
   },
@@ -148,7 +215,10 @@ export const EXPERIENCE_COMPANIES: ExperienceCompany[] = [
           'Gains hands-on experience in data preprocessing, visualization, and ML model experimentation using Python-based frameworks.',
         ],
         skills: ['Python', 'TensorFlow', 'Google Cloud', 'Machine Learning'],
+        seniorityRank: 45,
       },
     ],
   },
 ];
+
+export const EXPERIENCE_YEAR_GROUPS = buildExperienceYearGroups(EXPERIENCE_COMPANIES);

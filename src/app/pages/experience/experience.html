@@ -7,7 +7,13 @@
     </p>
   </header>
 
-  <div class="experience-timeline">
+  <div
+    class="experience-timeline"
+    [style.--highlight-y.px]="highlightY()"
+    [style.--line-fill-y.px]="lineFillY()"
+  >
+    <div class="experience-timeline__highlight" aria-hidden="true"></div>
+
     @for (group of yearGroups; track group.year; let groupLast = $last) {
       <section
         class="year-group"
@@ -19,47 +25,43 @@
         @for (entry of group.entries; track entry.id; let entryLast = $last) {
           <article
             class="role-entry"
-            [class.role-entry--active]="isActive(entry.id)"
             [class.role-entry--last]="entryLast && groupLast"
             [attr.data-role-entry]="entry.id"
+            [style.--focus]="focusFor(entry.id)"
           >
-            <div class="role-entry__marker" aria-hidden="true"></div>
+            <div class="role-entry__header">
+              <div class="role-entry__logo">{{ entry.company.icon }}</div>
+              <div class="role-entry__meta">
+                <h2 class="role-entry__company">{{ entry.company.name }}</h2>
+                <p class="role-entry__details">
+                  {{ entry.company.type }} · {{ entry.company.totalDuration }}
+                </p>
+                @if (entry.company.location) {
+                  <p class="role-entry__location">{{ entry.company.location }}</p>
+                }
+              </div>
+            </div>
 
-            <div class="role-entry__card">
-              <div class="role-entry__header">
-                <div class="role-entry__logo">{{ entry.company.icon }}</div>
-                <div class="role-entry__meta">
-                  <h2 class="role-entry__company">{{ entry.company.name }}</h2>
-                  <p class="role-entry__details">
-                    {{ entry.company.type }} · {{ entry.company.totalDuration }}
-                  </p>
-                  @if (entry.company.location) {
-                    <p class="role-entry__location">{{ entry.company.location }}</p>
+            <div class="role-entry__body">
+              <h3 class="role-entry__title">{{ entry.role.title }}</h3>
+              <p class="role-entry__period">{{ entry.role.period }}</p>
+
+              @for (desc of entry.role.descriptions; track desc) {
+                <p class="role-entry__desc">{{ desc }}</p>
+              }
+
+              @if (entry.role.skills.length) {
+                <div class="role-entry__skills">
+                  @for (skill of entry.role.skills; track skill) {
+                    <span class="skill-tag">{{ skill }}</span>
+                  }
+                  @if (entry.role.moreSkills) {
+                    <span class="skill-tag skill-tag--more"
+                      >+{{ entry.role.moreSkills }} skills</span
+                    >
                   }
                 </div>
-              </div>
-
-              <div class="role-entry__body">
-                <h3 class="role-entry__title">{{ entry.role.title }}</h3>
-                <p class="role-entry__period">{{ entry.role.period }}</p>
-
-                @for (desc of entry.role.descriptions; track desc) {
-                  <p class="role-entry__desc">{{ desc }}</p>
-                }
-
-                @if (entry.role.skills.length) {
-                  <div class="role-entry__skills">
-                    @for (skill of entry.role.skills; track skill) {
-                      <span class="skill-tag">{{ skill }}</span>
-                    }
-                    @if (entry.role.moreSkills) {
-                      <span class="skill-tag skill-tag--more"
-                        >+{{ entry.role.moreSkills }} skills</span
-                      >
-                    }
-                  </div>
-                }
-              </div>
+              }
             </div>
           </article>
         }
